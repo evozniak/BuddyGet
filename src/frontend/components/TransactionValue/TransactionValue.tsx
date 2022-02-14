@@ -1,16 +1,21 @@
-import { Button, View } from "react-native";
+import React, { useState } from "react";
+import { FlexView, RightText, Switch } from "./TransactionValue.styled";
 
 export default function TransactionValue() {
-    <View>
-        <Button title="1" onPress={() => {}}/>
-        <Button title="2" onPress={() => {}}/>
-        <Button title="3" onPress={() => {}}/>
-        <Button title="4" onPress={() => {}}/>
-        <Button title="5" onPress={() => {}}/>
-        <Button title="6" onPress={() => {}}/>
-        <Button title="7" onPress={() => {}}/>
-        <Button title="8" onPress={() => {}}/>
-        <Button title="9" onPress={() => {}}/>
-        <Button title="0" onPress={() => {}}/>
-    </View>
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);    
+    return (
+        <FlexView>
+            <Switch
+            trackColor={{ false: "#777575", true: "#177a2d" }}
+            thumbColor={isEnabled ? "#777575" : "#177a2d"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+            />
+            <RightText>
+                -R$55,00
+            </RightText>
+        </FlexView>
+    );
 }

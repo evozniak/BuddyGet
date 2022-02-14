@@ -1,45 +1,52 @@
-import * as React from 'react';
-import {Text, Button, ToastAndroid, View, Pressable} from 'react-native';
-import { Divider } from 'react-native-elements';
+import React from 'react';
+import {Text, ToastAndroid, View, Pressable} from 'react-native';
+import { Divider, Button } from 'react-native-elements';
 import Toast from 'react-native-root-toast';
+import TransactionLabel from '../TransactionLabel/TransactionLabel';
+import TransactionValue from '../TransactionValue/TransactionValue';
+import { FlexView } from './Transaction.styled';
 
 function onPayee(){
     Toast.show("Payee..");
 }
 
+function Save(){
+    Toast.show("Salvei a parada...");
+}
+
+const SaveButton = (props) => ( <Button  containerStyle={{
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 30,
+    margin: 15,
+    marginTop: 'auto',
+    
+    
+  }} {...props} />);
+
+
 export default function AddTransaction() {
     return (
-        <View>
+        <FlexView>
             <View>
-                <Text>R$ 55,00</Text>
+                <TransactionValue/>
+                <Pressable onPress={onPayee}>
+                    <TransactionLabel labelName="Payee" value="Restaurante Armazém"/>
+                </Pressable>
+                <Divider/>
+                <Pressable onPress={onPayee}>
+                    <TransactionLabel labelName="Category" value="Alimentação fora"/>                
+                </Pressable>     
+                <Divider/>
+                <Pressable onPress={onPayee}>
+                    <TransactionLabel labelName="Account" value="NuBank"/>                        
+                </Pressable>     
+                <Divider/>
+                <Pressable onPress={onPayee}>
+                    <TransactionLabel labelName="Date" value="13/02/2022"/>                    
+                </Pressable>    
             </View>
-            <Pressable onPress={onPayee}>
-                <View style={{ flexDirection:"row", justifyContent:'space-evenly'}}>
-                    <Text>Payee</Text>
-                    <Text>Restaurante Armazém</Text>
-                </View>
-            </Pressable>
-            <Divider/>
-            <Pressable onPress={onPayee}>
-                <View style={{ flexDirection:"row", justifyContent:'space-evenly'}}>
-                    <Text>Category</Text>
-                    <Text>Alimentação fora</Text>
-                </View>
-            </Pressable>     
-            <Divider/>
-            <Pressable onPress={onPayee}>
-                <View style={{ flexDirection:"row", justifyContent:'space-evenly'}}>
-                    <Text>Account</Text>
-                    <Text>NuBank</Text>
-                </View>
-            </Pressable>     
-            <Divider/>
-            <Pressable onPress={onPayee}>
-                <View style={{ flexDirection:"row", justifyContent:'space-evenly'}}>
-                    <Text>Date</Text>
-                    <Text>13/02/2022</Text>
-                </View>
-            </Pressable> 
-        </View>
+            <SaveButton onPress={Save} title={'Save transaction'}/>
+        </FlexView>
     );
 }
