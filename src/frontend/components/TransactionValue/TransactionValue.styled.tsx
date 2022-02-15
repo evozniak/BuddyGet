@@ -6,7 +6,7 @@ export const FlexView = styled.View`
 `;
 
 export const RightText = styled.Text`
-    font-size: 30;
+    font-size: 30px;
     color: red;
     font-weight: 900;
     text-align:right
