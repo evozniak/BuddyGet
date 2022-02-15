@@ -4,7 +4,7 @@ import { Divider, Button } from 'react-native-elements';
 import Toast from 'react-native-root-toast';
 import TransactionLabel from '../TransactionLabel/TransactionLabel';
 import TransactionValue from '../TransactionValue/TransactionValue';
-import { FlexView } from './Transaction.styled';
+import { FlexView, SaveButton } from './Transaction.styled';
 
 function onPayee(){
     Toast.show("Payee..");
@@ -13,17 +13,6 @@ function onPayee(){
 function Save(){
     Toast.show("Salvei a parada...");
 }
-
-const SaveButton = (props) => ( <Button  containerStyle={{
-    borderColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 30,
-    margin: 15,
-    marginTop: 'auto',
-    
-    
-  }} {...props} />);
-
 
 export default function AddTransaction() {
     return (
