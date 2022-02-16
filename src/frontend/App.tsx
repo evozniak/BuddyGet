@@ -7,6 +7,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import Settings from './components/Settings/Settings';
 import React from 'react';
 import { SimpleLineIcons, MaterialCommunityIcons, Feather, MaterialIcons } from '@expo/vector-icons'; 
+import Accounts from './components/Accounts/Accounts';
 
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,7 @@ export default function App() {
                 ),
               }}
           />
-          <Tab.Screen name="Account" component={HelloWorld} 
+          <Tab.Screen name="Account" component={Accounts} 
               options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="bank" color={color} size={size} />
