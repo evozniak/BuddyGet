@@ -1,18 +1,35 @@
 import React from 'react';
 import { SectionList, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddAccount, FlexViewHorizontal, FlexViewVertical, HeaderText, LeftText, RightText } from './Accounts.styled';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
-export default function Accounts(){
+export default function Accounts(){ 
+    const accounts = useAppSelector((state) => state.account.accounts);
+    const budgetAccounts = accounts.filter(acc => acc.type == 'Budget accounts');
+    const reserveAccounts = accounts.filter(acc => acc.type == 'Reserve');    
+    let budAcc = [];
+    let resAcc = [];
+    budgetAccounts.map(acc => {
+        budAcc.push({accountName: acc.name, accountBalance: acc.balance})
+    });
+    reserveAccounts.map(acc => {
+        resAcc.push({accountName: acc.name, accountBalance: acc.balance})
+    });    
+    let listData = [{title: 'Budget accounts', data: [...budAcc]}, {title: 'Reserve', data: [...resAcc]}];    
+
+
     return (
         <FlexViewVertical>
             <SectionList
-            sections={[
-                {title: 'Budget accounts', data: [{accountName:'Itaú', accountValue:'R$500,00'}, {accountName:'NuBank', accountValue:'R$1500,00'}]},
-                {title: 'Reserve', data: [{accountName:'FGTS', accountValue:'R$500,00'}, {accountName:'Previdência', accountValue:'R$500,00'}]},
-            ]}
+            sections={listData}
+            // sections={[
+            //     {title: 'Budget accounts', data: [{accountName:'Itaú', accountBalance:'R$500,00'}, {accountName:'NuBank', accountBalance:'R$1500,00'}]},
+            //     {title: 'Reserve', data: [{accountName:'FGTS', accountBalance:'R$500,00'}, {accountName:'Previdência', accountBalance:'R$500,00'}]},
+            // ]}
             renderItem={({item}) => <FlexViewHorizontal>
                                         <LeftText >{item.accountName}</LeftText> 
-                                        <RightText>{item.accountValue}</RightText>
+                                        <RightText>R${item.accountBalance}</RightText>
                                     </FlexViewHorizontal>}
             renderSectionHeader={({section}) => <HeaderText>{section.title}</HeaderText>}
             keyExtractor={(item, index) => item.accountName}
