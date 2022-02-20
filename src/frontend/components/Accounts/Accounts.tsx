@@ -1,8 +1,7 @@
 import React from 'react';
-import { SectionList, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { SectionList} from 'react-native';
 import { AddAccount, FlexViewHorizontal, FlexViewVertical, HeaderText, LeftText, RightText } from './Accounts.styled';
-import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import { useAppSelector } from '../../redux/hooks'
 
 export default function Accounts(){ 
     const accounts = useAppSelector((state) => state.account.accounts);
