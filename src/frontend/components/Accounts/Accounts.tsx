@@ -23,10 +23,6 @@ export default function Accounts(){
         <FlexViewVertical>
             <SectionList
             sections={listData}
-            // sections={[
-            //     {title: 'Budget accounts', data: [{accountName:'Itaú', accountBalance:'R$500,00'}, {accountName:'NuBank', accountBalance:'R$1500,00'}]},
-            //     {title: 'Reserve', data: [{accountName:'FGTS', accountBalance:'R$500,00'}, {accountName:'Previdência', accountBalance:'R$500,00'}]},
-            // ]}
             renderItem={({item}) => <FlexViewHorizontal>
                                         <LeftText >{item.accountName}</LeftText> 
                                         <RightText>R${item.accountBalance}</RightText>
