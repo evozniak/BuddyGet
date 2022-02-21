@@ -1,3 +1,4 @@
+import React from 'react';
 import {Text, Button, ToastAndroid, View} from 'react-native';
 import Toast from 'react-native-root-toast';
 

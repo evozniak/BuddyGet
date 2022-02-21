@@ -1,5 +1,6 @@
-import React from "react";
-import { SectionList } from "react-native";
+import React from 'react';
+import { SectionList } from 'react-native';
+import { v4 as uuidv4 } from 'uuid';
 import {
   AddAccount,
   FlexViewHorizontal,
@@ -7,21 +8,20 @@ import {
   HeaderText,
   LeftText,
   RightText,
-} from "./Accounts.styled";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { addAccount } from "../../redux/accountSlice";
-
+} from './Accounts.styled';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { addAccount } from '../../redux/accountSlice';
 
 export default function Accounts() {
   const accounts = useAppSelector((state) => state.account.accounts);
   const dispatch = useAppDispatch();
 
   const budgetAccounts = accounts.filter(
-    (acc) => acc.type == "Budget accounts"
+    (acc) => acc.type === 'Budget accounts',
   );
-  const reserveAccounts = accounts.filter((acc) => acc.type == "Reserve");
-  let budAcc = [];
-  let resAcc = [];
+  const reserveAccounts = accounts.filter((acc) => acc.type === 'Reserve');
+  const budAcc = [];
+  const resAcc = [];
   budgetAccounts.map((acc) => {
     budAcc.push({ accountName: acc.name, accountBalance: acc.balance });
   });
@@ -29,12 +29,14 @@ export default function Accounts() {
     resAcc.push({ accountName: acc.name, accountBalance: acc.balance });
   });
   const listData = [
-    { title: "Budget accounts", data: [...budAcc] },
-    { title: "Reserve", data: [...resAcc] },
+    { title: 'Budget accounts', data: [...budAcc] },
+    { title: 'Reserve', data: [...resAcc] },
   ];
 
-  function Teste(){
-      dispatch(addAccount({ key: "acc9", balance: 99999, name: 'Teste', type: 'Budget accounts'}))
+  function Teste() {
+    dispatch(addAccount({
+      key: uuidv4(), balance: 99999, name: 'Teste', type: 'Budget accounts',
+    }));
   }
 
   return (
@@ -55,7 +57,7 @@ export default function Accounts() {
         )}
         keyExtractor={(item, index) => item.accountName}
       />
-      <AddAccount onPress={Teste} title={"Add new account"} />
+      <AddAccount onPress={Teste} title="Add new account" />
     </FlexViewVertical>
   );
 }

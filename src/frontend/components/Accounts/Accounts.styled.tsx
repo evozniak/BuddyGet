@@ -43,10 +43,11 @@ export const RightText = styled(ItemText)`
 `;
 
 export const AddAccount = styled(Button).attrs({
-    containerStyle: {
-        borderColor: 'transparent',
-        borderWidth: 0,
-        borderRadius: 30,
-        margin: 15,
-        marginTop: 'auto' }
-    })``;
+  containerStyle: {
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 30,
+    margin: 15,
+    marginTop: 'auto',
+  },
+})``;
