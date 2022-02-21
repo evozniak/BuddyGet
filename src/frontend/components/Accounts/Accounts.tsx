@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SectionList } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
 import {
   AddAccount,
   FlexViewHorizontal,
@@ -11,38 +10,50 @@ import {
 } from './Accounts.styled';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { addAccount } from '../../redux/accountSlice';
+import { Account } from '../../model/account';
+import uuid from '../../utils/uuid';
+
+function extractAccountTypes(accounts: Account[]): string[]{
+  let types = new Set<string>();
+  accounts.forEach(acc => types.add(acc.type));
+  return Array.from(types.values());
+}
+
+function generateAccountSectionData(accounts: Account[]){
+  const accountTypes = extractAccountTypes(accounts);
+  let result = [];
+  accountTypes.forEach(act => {
+    let data = [];
+    accounts.forEach(acc => {  
+      if (acc.type === act)
+        data.push({ accountName: acc.name, accountBalance: acc.balance});
+     });
+    result.push({ title: act, data: [...data]});
+  })
+  return result;
+}
 
 export default function Accounts() {
+
   const accounts = useAppSelector((state) => state.account.accounts);
   const dispatch = useAppDispatch();
-
-  const budgetAccounts = accounts.filter(
-    (acc) => acc.type === 'Budget accounts',
-  );
-  const reserveAccounts = accounts.filter((acc) => acc.type === 'Reserve');
-  const budAcc = [];
-  const resAcc = [];
-  budgetAccounts.map((acc) => {
-    budAcc.push({ accountName: acc.name, accountBalance: acc.balance });
-  });
-  reserveAccounts.map((acc) => {
-    resAcc.push({ accountName: acc.name, accountBalance: acc.balance });
-  });
-  const listData = [
-    { title: 'Budget accounts', data: [...budAcc] },
-    { title: 'Reserve', data: [...resAcc] },
-  ];
-
+  const [accountSectionData, setAccountSectionData ] = useState([]);
+  
+  useEffect(() => { 
+    setAccountSectionData(() => generateAccountSectionData(accounts));    
+  }, [accounts]);
+  
   function Teste() {
+    console.log("teste...");
     dispatch(addAccount({
-      key: uuidv4(), balance: 99999, name: 'Teste', type: 'Budget accounts',
+      key: uuid(), balance: 99999, name: 'Teste', type: 'Budget accounts',
     }));
   }
 
   return (
     <FlexViewVertical>
       <SectionList
-        sections={listData}
+        sections={accountSectionData}
         renderItem={({ item }) => (
           <FlexViewHorizontal>
             <LeftText>{item.accountName}</LeftText>
@@ -55,7 +66,7 @@ export default function Accounts() {
         renderSectionHeader={({ section }) => (
           <HeaderText>{section.title}</HeaderText>
         )}
-        keyExtractor={(item, index) => item.accountName}
+        keyExtractor={(item, index) => item.accountName+index}
       />
       <AddAccount onPress={Teste} title="Add new account" />
     </FlexViewVertical>
