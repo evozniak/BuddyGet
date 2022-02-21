@@ -13,6 +13,15 @@ import { addAccount } from '../../redux/accountSlice';
 import { Account } from '../../model/account';
 import uuid from '../../utils/uuid';
 
+interface GridItem {
+  accountName: string,
+  accountBalance: number,
+}
+interface Grid{
+  title: string,
+  data: GridItem[]
+}
+
 function extractAccountTypes(accounts: Account[]): string[]{
   let types = new Set<string>();
   accounts.forEach(acc => types.add(acc.type));
@@ -21,9 +30,9 @@ function extractAccountTypes(accounts: Account[]): string[]{
 
 function generateAccountSectionData(accounts: Account[]){
   const accountTypes = extractAccountTypes(accounts);
-  let result = [];
+  let result: Grid[] = [];
   accountTypes.forEach(act => {
-    let data = [];
+    let data: GridItem[] = [];
     accounts.forEach(acc => {  
       if (acc.type === act)
         data.push({ accountName: acc.name, accountBalance: acc.balance});
@@ -34,10 +43,9 @@ function generateAccountSectionData(accounts: Account[]){
 }
 
 export default function Accounts() {
-
   const accounts = useAppSelector((state) => state.account.accounts);
   const dispatch = useAppDispatch();
-  const [accountSectionData, setAccountSectionData ] = useState([]);
+  const [accountSectionData, setAccountSectionData ] = useState<Grid[]>([]);
   
   useEffect(() => { 
     setAccountSectionData(() => generateAccountSectionData(accounts));    
@@ -59,7 +67,7 @@ export default function Accounts() {
             <LeftText>{item.accountName}</LeftText>
             <RightText>
               R$
-              {parseInt(item.accountBalance).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+              {item.accountBalance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
             </RightText>
           </FlexViewHorizontal>
         )}
