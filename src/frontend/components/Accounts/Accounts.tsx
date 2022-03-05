@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SectionList } from 'react-native';
+import { Modal, SectionList } from 'react-native';
 import {
   AddAccount,
   FlexViewHorizontal,
@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { addAccount } from '../../redux/accountSlice';
 import { Account } from '../../model/account';
 import uuid from '../../utils/uuid';
+import AccountEditor from '../AccountEditor/AccountEditor';
 
 interface GridItem {
   accountName: string,
@@ -46,6 +47,7 @@ export default function Accounts() {
   const accounts = useAppSelector((state) => state.account.accounts);
   const dispatch = useAppDispatch();
   const [accountSectionData, setAccountSectionData ] = useState<Grid[]>([]);
+  const [editing, setEditing] = useState<boolean>(false);
   
   useEffect(() => { 
     setAccountSectionData(() => generateAccountSectionData(accounts));    
@@ -53,13 +55,18 @@ export default function Accounts() {
   
   function Teste() {
     console.log("teste...");
-    dispatch(addAccount({
-      key: uuid(), balance: 99999, name: 'Teste', type: 'Budget accounts',
-    }));
+    // dispatch(addAccount({
+    //   key: uuid(), balance: 99999, name: 'Teste', type: 'Budget accounts',
+    // }));
+    setEditing(true);
+    <AccountEditor></AccountEditor>
   }
 
   return (
     <FlexViewVertical>
+      <Modal visible={editing}>
+        <AccountEditor/>
+      </Modal>
       <SectionList
         sections={accountSectionData}
         renderItem={({ item }) => (
